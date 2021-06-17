@@ -177,9 +177,9 @@ Average loss: 0.2747, Accuracy: 9263/10000 (93%)
 ### OBJECTIVE
 
 - Discuss what you have learned from this exercise, including the following points:
--       the relative accuracy of the three models,
--       the confusion matrix for each model: which characters are most likely to be mistaken for which other characters, and why?
--       you may wish to experiment with other architectures and/or metaparameters for this dataset, and report on your results; the aim of this exercise is not only to achieve high accuracy but also to understand the effect of different choices on the final accuracy.
+    - the relative accuracy of the three models,
+    - the confusion matrix for each model: which characters are most likely to be mistaken for which other characters, and why?
+    - you may wish to experiment with other architectures and/or metaparameters for this dataset, and report on your results; the aim of this exercise is not only to achieve high accuracy but also to understand the effect of different choices on the final accuracy.
 
 ### IMPLEMENTATION
 
@@ -290,7 +290,7 @@ python3 spiral_main.py --net polar --hid 10.
 
 ### OBJECTIVE
 
-- Implement a Pytorch Module called RawNet which operates on the raw input (x,y) without converting to polar coordinates. Your network should consist of two fully connected hidden layers with tanh activation, plus the output layer, with sigmoid activation. Run the code by typing python3 spiral_main.py --net raw
+- Implement a Pytorch Module called RawNet which operates on the raw input (x,y) without converting to polar coordinates. Your network should consist of two fully connected hidden layers with tanh activation, plus the output layer, with sigmoid activation. Run the code by typing python3 spiral_main.py --net raw.
 
 - You should not use Sequential but should instead build the network from individual components.
 
