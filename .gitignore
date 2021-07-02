@@ -26,3 +26,26 @@ COMP9444_HW1/bin/*
 COMP9444_HW1/qt.conf
 COMP9444_HW1/Shared Libraries
 COMP9444_HW1/sip/*
+
+COMP9444_HW2/.nonadmin
+COMP9444_HW2/conda-meta/
+COMP9444_HW2/bin/
+COMP9444_HW2/DLLs/
+COMP9444_HW2/include/
+COMP9444_HW2/info/
+COMP9444_HW2/Lib/
+COMP9444_HW2/Library/
+COMP9444_HW2/libs/
+COMP9444_HW2/Scripts/
+COMP9444_HW2/Shared Libraries/
+COMP9444_HW2/tcl/
+COMP9444_HW2/Tools/
+COMP9444_HW2/*.dll
+COMP9444_HW2/LICENSE_PYTHON.txt
+COMP9444_HW2/python.exe
+COMP9444_HW2/python.pdb
+COMP9444_HW2/python38.pdb
+COMP9444_HW2/pythonw.exe
+COMP9444_HW2/pythonw.pdb
+COMP9444_HW2/venvlauncher.exe
+COMP9444_HW2/venvwlauncher.exe
