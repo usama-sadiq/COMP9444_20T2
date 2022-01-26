@@ -18,71 +18,32 @@ The variable device may be used to refer to the CPU/GPU being used by PyTorch.
 You may only use GloVe 6B word vectors as found in the torchtext package.
 """
 
-import torch
 import torch.nn as tnn
 import torch.optim as toptim
 from torchtext.vocab import GloVe
-import pandas as pd
-
-from nltk.corpus import stopwords
-import string
-from nltk.stem import WordNetLemmatizer
-import re
-from nltk.stem.porter import PorterStemmer
-
+import torch.nn.functional as F
+import torch
 
 ###########################################################################
 ### The following determines the processing of input data (review text) ###
 ###########################################################################
 
-##### GLOBALS NEEDED FOR CLASSIFICATION########
-embedding_dim = 200
-num_hidden_nodes = 70
-num_layers = 1
-bidirectional = False
-dropout = 0.2
-output_dim = 5
-#############################
-
-#######################################
-# pre_process_text_file = open("pre_process_text_file.txt", "w")
-#######################################
-
-#######################################
-# PUNCTUATIONS
-#######################################
-
-punctuations = string.punctuation
-
-#######################################
-
 def preprocessing(sample):
     """
     Called after tokenising but before numericalising.
     """
-    # global pre_process_text_file
-    global punctuations
 
-    for i in range(0,len(sample)):
-        word = sample[i]
-        new_word = ""
-        for j in word:
-            if j not in punctuations:
-                new_word = new_word + j
-        sample[i] = new_word
-        # pre_process_text_file.write(new_word + "\n")
-    
     return sample
 
 def postprocessing(batch, vocab):
     """
     Called after numericalisation but before vectorisation.
     """
+
     return batch
 
-# stopWords = {}
-stopWords = stopwords.words('english')
-wordVectors = GloVe(name='6B', dim=embedding_dim)
+
+wordVectors = GloVe(name='6B', dim=50)
 
 ###########################################################################
 ##### The following determines the processing of label data (ratings) #####
@@ -97,7 +58,7 @@ def convertLabel(datasetLabel):
     Consider regression vs classification.
     """
 
-    return datasetLabel.to(dtype=torch.long, device = 'cpu') - 1
+    return datasetLabel
 
 def convertNetOutput(netOutput):
     """
@@ -107,8 +68,7 @@ def convertNetOutput(netOutput):
     If your network outputs a different representation or any float
     values other than the five mentioned, convert the output here.
     """
-    netOutput = torch.argmax(netOutput, dim=1)
-    netOutput = torch.add(netOutput, 1)
+
     return netOutput
 
 ###########################################################################
@@ -125,46 +85,10 @@ class network(tnn.Module):
 
     def __init__(self):
         super(network, self).__init__()
-        # Inputs for LSTM: input, (h_0, c_0)
-        ## input: (N * L * H(in)) when batch_first = True
-        ### The input can also be a packed variable length sequence.
-        ## h_0: tensor of shape (D * num_layers, N, H(out)) contains the intial hidden
-        ### state of each element in the batch. Defaults to zeros if not provided
-        ## c_0: tensor of shape (D * num_layers, N, H(cell)) containing the intial cell
-        ### state for each element in the batch. Defaults to zeros if not provided
-        # where 
-        ##  N = batch size
-        ##  L = sequence length
-        ##  D = 2 if bidirectional = True otherwise 1
-        ##  H(in) = input_size
-        ##  H(cell) = hidden_size
-        ##  H(out) = proj_size if proj_size > 0 otherwise hidden_size
-
-        global num_layers
-
-        if num_layers == 1:
-            self.lstm = tnn.LSTM(input_size = embedding_dim, hidden_size = num_hidden_nodes, num_layers = num_layers, batch_first = True)
-            self.fc = tnn.Linear(num_hidden_nodes, output_dim)
-        elif num_layers > 1:
-            self.lstm = tnn.LSTM(input_size = embedding_dim, hidden_size = num_hidden_nodes, num_layers = num_layers, bidirectional = bidirectional, dropout=dropout, batch_first = True)
-            self.fc = tnn.Linear(num_hidden_nodes * 2, output_dim)
+        pass
 
     def forward(self, input, length):
-
-        packed_embedded = tnn.utils.rnn.pack_padded_sequence(input, length.cpu(), batch_first=True)
-
-        lstm_output, (hidden, cell) = self.lstm(packed_embedded)
-
-        global num_layers
-
-        if num_layers == 1:
-            output_fc_layer = self.fc(hidden[-1, :, :])
-        elif num_layers > 1:
-            output_fc_layer = self.fc(torch.cat((hidden[-2, :, :], hidden[-1, :, :]), dim= 1))
-
-        output_log_softmax = tnn.functional.log_softmax(output_fc_layer, dim = 1)
-
-        return output_log_softmax
+        pass
 
 class loss(tnn.Module):
     """
@@ -183,7 +107,8 @@ net = network()
     Loss function for the model. You may use loss functions found in
     the torch package, or create your own with the loss class above.
 """
-lossFunc = tnn.CrossEntropyLoss()
+#lossFunc = loss()
+lossFunc = tnn.MSELoss()
 
 ###########################################################################
 ################ The following determines training options ################

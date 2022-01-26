@@ -51,4 +51,7 @@ COMP9444_HW2/venvlauncher.exe
 COMP9444_HW2/venvwlauncher.exe
 COMP9444_HW2/Menu/
 COMP9444_HW2/share/
+COMP9444_HW2/.vector_cache/
+COMP9444_HW2/__pycache__/
+COMP9444_HW2/python39.pdb
 New folder/
